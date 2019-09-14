@@ -25,40 +25,52 @@
             @Html.DisplayNameFor(model => model.TotalCost)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.cust.id)
+            @Html.DisplayNameFor(model => model.cust.FName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.room.id)
+            @Html.DisplayNameFor(model => model.cust.LName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.room.hotel.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.room.Description)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumberOfPeople)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalCost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cust.id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.room.id)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.StartDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EndDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NumberOfPeople)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TotalCost)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.cust.FName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.cust.LName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.room.hotel.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.room.Description)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+    </td>
+</tr>
 }
 
 </table>

@@ -16,9 +16,15 @@ namespace Assignment.Controllers
         private HotelStuff db = new HotelStuff();
 
         // GET: Bookings
+        
         public ActionResult Index()
         {
-            return View(db.bookings.ToList());
+            List<Booking> Bookings = db.bookings
+                .Include(a => a.room)
+                .Include(a => a.room.hotel)
+                .Include(a => a.cust).ToList();
+
+            return View(Bookings);
         }
 
         // GET: Bookings/Details/5
@@ -28,7 +34,11 @@ namespace Assignment.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.bookings.Find(id);
+            Booking booking = db.bookings
+                .Include(a => a.room)
+                .Include(a => a.cust)
+                .Where(a => a.id == id)
+                .SingleOrDefault();
             if (booking == null)
             {
                 return HttpNotFound();
@@ -47,8 +57,39 @@ namespace Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost")] Booking booking)
+        public ActionResult Create([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost,cust,room")] Booking booking)
         {
+            // extract the room and customer IDs entered by the user.
+            int roomId = booking.room.id;
+            int custId = booking.cust.id;
+
+
+            // search for the room and customer data in the database.
+            Room r = db.rooms
+                .Include(a => a.hotel)
+                .Where(a => a.id == roomId)
+                .SingleOrDefault();
+
+            Customer c = db.customers.Find(custId);
+
+            // remove room attribute errors from the model state
+            if (c != null)
+            {
+                this.ModelState["cust.FName"].Errors.Clear();
+                
+            }
+
+            // remove customer attribute errors from the model state
+            if (r != null)
+            {
+                this.ModelState["room.hotel"].Errors.Clear();
+                
+            }
+
+            // Add the data for the customer and room to the object.
+            booking.room = r;
+            booking.cust = c;
+
             if (ModelState.IsValid)
             {
                 db.bookings.Add(booking);

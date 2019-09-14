@@ -18,8 +18,11 @@ namespace Assignment.Controllers
         // GET: Rooms
         public ActionResult Index()
         {
-            return View(db.rooms.ToList());
+            List<Room> Rooms = db.rooms
+                .Include(a => a.hotel).ToList();
+            return View(Rooms);
         }
+
 
         // GET: Rooms/Details/5
         public ActionResult Details(int? id)
@@ -28,11 +31,27 @@ namespace Assignment.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.rooms.Find(id);
+
+            Room room = db.rooms
+                .Include(a => a.hotel)
+                .Where(a => a.id == id)
+                .SingleOrDefault();
             if (room == null)
             {
                 return HttpNotFound();
             }
+
+            //var view = new Hotel_Room_View
+            //{
+            //    ID = room.id,
+            //    Floor = room.Floor,
+            //    Description = room.Description,
+            //    PricePerNight = room.PricePerNight,
+            //    RoomCapacity = room.RoomCapacity,
+            //    hotel = room.hotel
+            //};
+            //return View(view);
+
             return View(room);
         }
 
