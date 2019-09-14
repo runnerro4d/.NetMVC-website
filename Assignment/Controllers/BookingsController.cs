@@ -6,39 +6,33 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Assignment.Context;
 using Assignment.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Assignment.Controllers
 {
     public class BookingsController : Controller
     {
-        private HotelStuff db = new HotelStuff();
+        private HotelModel db = new HotelModel();
 
         // GET: Bookings
-        
+        [Authorize]
         public ActionResult Index()
         {
-            List<Booking> Bookings = db.bookings
-                .Include(a => a.room)
-                .Include(a => a.room.hotel)
-                .Include(a => a.cust).ToList();
-
-            return View(Bookings);
+            var userId = User.Identity.GetUserId();
+            var bookings = db.Bookings.Include(b => b.Customer).Include(b => b.Room).Where(b => b.cust_id == userId);
+            return View(bookings.ToList());
         }
 
         // GET: Bookings/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.bookings
-                .Include(a => a.room)
-                .Include(a => a.cust)
-                .Where(a => a.id == id)
-                .SingleOrDefault();
+            Booking booking = db.Bookings.Find(id);
             if (booking == null)
             {
                 return HttpNotFound();
@@ -47,8 +41,11 @@ namespace Assignment.Controllers
         }
 
         // GET: Bookings/Create
+        [Authorize]
         public ActionResult Create()
         {
+            ViewBag.cust_id = new SelectList(db.Customers, "id", "FName");
+            ViewBag.room_id = new SelectList(db.Rooms, "id", "Description");
             return View();
         }
 
@@ -57,61 +54,36 @@ namespace Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost,cust,room")] Booking booking)
+        [Authorize]
+        public ActionResult Create([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost,cust_id,room_id")] Booking booking)
         {
-            // extract the room and customer IDs entered by the user.
-            int roomId = booking.room.id;
-            int custId = booking.cust.id;
-
-
-            // search for the room and customer data in the database.
-            Room r = db.rooms
-                .Include(a => a.hotel)
-                .Where(a => a.id == roomId)
-                .SingleOrDefault();
-
-            Customer c = db.customers.Find(custId);
-
-            // remove room attribute errors from the model state
-            if (c != null)
-            {
-                this.ModelState["cust.FName"].Errors.Clear();
-                
-            }
-
-            // remove customer attribute errors from the model state
-            if (r != null)
-            {
-                this.ModelState["room.hotel"].Errors.Clear();
-                
-            }
-
-            // Add the data for the customer and room to the object.
-            booking.room = r;
-            booking.cust = c;
-
             if (ModelState.IsValid)
             {
-                db.bookings.Add(booking);
+                db.Bookings.Add(booking);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.cust_id = new SelectList(db.Customers, "id", "FName", booking.cust_id);
+            ViewBag.room_id = new SelectList(db.Rooms, "id", "Description", booking.room_id);
             return View(booking);
         }
 
         // GET: Bookings/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.bookings.Find(id);
+            Booking booking = db.Bookings.Find(id);
             if (booking == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.cust_id = new SelectList(db.Customers, "id", "FName", booking.cust_id);
+            ViewBag.room_id = new SelectList(db.Rooms, "id", "Description", booking.room_id);
             return View(booking);
         }
 
@@ -120,7 +92,7 @@ namespace Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost")] Booking booking)
+        public ActionResult Edit([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost,cust_id,room_id")] Booking booking)
         {
             if (ModelState.IsValid)
             {
@@ -128,6 +100,8 @@ namespace Assignment.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.cust_id = new SelectList(db.Customers, "id", "FName", booking.cust_id);
+            ViewBag.room_id = new SelectList(db.Rooms, "id", "Description", booking.room_id);
             return View(booking);
         }
 
@@ -138,7 +112,7 @@ namespace Assignment.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.bookings.Find(id);
+            Booking booking = db.Bookings.Find(id);
             if (booking == null)
             {
                 return HttpNotFound();
@@ -151,8 +125,8 @@ namespace Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Booking booking = db.bookings.Find(id);
-            db.bookings.Remove(booking);
+            Booking booking = db.Bookings.Find(id);
+            db.Bookings.Remove(booking);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
 namespace Assignment.Models
 {
-    public class Customer
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Customer
     {
-        [Display(Name = "Customer ID")]
-        public int id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Customer()
+        {
+            Bookings = new HashSet<Booking>();
+        }
+
+        public string id { get; set; }
 
         [Required]
-        [Display(Name = "First Name")]
-        public String FName { get; set; }
+        public string FName { get; set; }
 
-        [Display(Name = "Last Name")]
-        public String LName { get; set; }
+        public string LName { get; set; }
 
-        [Display(Name = "Date Of Registration")]
         public DateTime DateOfRegistration { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

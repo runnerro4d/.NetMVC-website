@@ -49,6 +49,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -172,7 +174,7 @@
     <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\HotelController.cs" />
+    <Compile Include="Controllers\HotelsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
@@ -204,11 +206,16 @@
     <Compile Include="Migrations\201909101727303_dbagain1.Designer.cs">
       <DependentUpon>201909101727303_dbagain1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909141138305_DB changes.cs" />
+    <Compile Include="Migrations\201909141138305_DB changes.Designer.cs">
+      <DependentUpon>201909141138305_DB changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Hotel.cs" />
+    <Compile Include="Models\HotelModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Room.cs" />
@@ -217,9 +224,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\AssignmentDB.mdf" />
-    <Content Include="App_Data\AssignmentDB_log.ldf">
-      <DependentUpon>AssignmentDB.mdf</DependentUpon>
+    <Content Include="App_Data\aspnet-Assignment-20190816034540.mdf" />
+    <Content Include="App_Data\aspnet-Assignment-20190816034540_log.ldf">
+      <DependentUpon>aspnet-Assignment-20190816034540.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
@@ -611,7 +618,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Hotel\Index.cshtml" />
     <Content Include="Views\Rooms\Create.cshtml" />
     <Content Include="Views\Rooms\Delete.cshtml" />
     <Content Include="Views\Rooms\Details.cshtml" />
@@ -632,12 +638,13 @@
     <Content Include="Views\Staffs\Details.cshtml" />
     <Content Include="Views\Staffs\Edit.cshtml" />
     <Content Include="Views\Staffs\Index.cshtml" />
-    <Content Include="Views\Hotel\Create.cshtml" />
-    <Content Include="Views\Hotel\Delete.cshtml" />
-    <Content Include="Views\Hotel\Details.cshtml" />
-    <Content Include="Views\Hotel\Edit.cshtml" />
     <Content Include="Views\Role\RoleList.cshtml" />
     <Content Include="Views\Role\CreateRole.cshtml" />
+    <Content Include="Views\Hotels\Create.cshtml" />
+    <Content Include="Views\Hotels\Delete.cshtml" />
+    <Content Include="Views\Hotels\Details.cshtml" />
+    <Content Include="Views\Hotels\Edit.cshtml" />
+    <Content Include="Views\Hotels\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908270535370_InitialCreate.resx">
@@ -657,6 +664,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909101727303_dbagain1.resx">
       <DependentUpon>201909101727303_dbagain1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909141138305_DB changes.resx">
+      <DependentUpon>201909141138305_DB changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

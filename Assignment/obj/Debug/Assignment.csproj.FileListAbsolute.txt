@@ -102,7 +102,6 @@ C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.csproj.Co
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.csproj.CopyComplete
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.dll
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.pdb
-C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.csprojAssemblyReference.cache
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migrations.InitialCreate.resources
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.csproj.GenerateResource.cache
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migrations.Hotel.resources
@@ -110,3 +109,5 @@ C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migration
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migrations.changeToModels.resources
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migrations.dbagain.resources
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migrations.dbagain1.resources
+C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migrations.DBchanges.resources
+C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.csprojAssemblyReference.cache

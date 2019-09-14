@@ -6,29 +6,28 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Assignment.Context;
 using Assignment.Models;
 
 namespace Assignment.Controllers
 {
     public class StaffsController : Controller
     {
-        private HotelStuff db = new HotelStuff();
+        private HotelModel db = new HotelModel();
 
         // GET: Staffs
         public ActionResult Index()
         {
-            return View(db.staffs.ToList());
+            return View(db.Staffs.ToList());
         }
 
         // GET: Staffs/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.staffs.Find(id);
+            Staff staff = db.Staffs.Find(id);
             if (staff == null)
             {
                 return HttpNotFound();
@@ -51,7 +50,7 @@ namespace Assignment.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.staffs.Add(staff);
+                db.Staffs.Add(staff);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -60,13 +59,13 @@ namespace Assignment.Controllers
         }
 
         // GET: Staffs/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.staffs.Find(id);
+            Staff staff = db.Staffs.Find(id);
             if (staff == null)
             {
                 return HttpNotFound();
@@ -91,13 +90,13 @@ namespace Assignment.Controllers
         }
 
         // GET: Staffs/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.staffs.Find(id);
+            Staff staff = db.Staffs.Find(id);
             if (staff == null)
             {
                 return HttpNotFound();
@@ -108,10 +107,10 @@ namespace Assignment.Controllers
         // POST: Staffs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
-            Staff staff = db.staffs.Find(id);
-            db.staffs.Remove(staff);
+            Staff staff = db.Staffs.Find(id);
+            db.Staffs.Remove(staff);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
 }
 
 <h2>Index</h2>
@@ -12,8 +11,10 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <thead>
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Hotel.Name)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Floor)
         </th>
@@ -26,54 +27,32 @@
         <th>
             @Html.DisplayNameFor(model => model.RoomCapacity)
         </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.hotel.Name)
-        </th>
-
         <th></th>
     </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Floor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PricePerNight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomCapacity)
-            </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.hotel.Name)
-            </td>
-
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })|
-                @Html.ActionLink("Add Room To Booking","../Bookings/Create", new { id = item.id})
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
-@section Scripts {
-
-    @Scripts.Render("~/Scripts/DataTables/jquery.dataTables.js")
-    @Scripts.Render("~/Scripts/DataTables/dataTables.bootstrap.js")
-    <script>
-         $(document).ready(function () {
-         $('.table').DataTable();
-         });
-    </script>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hotel.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Floor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PricePerNight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoomCapacity)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
 }
-<link href="~/Content/DataTables/css/dataTables.bootstrap.min.css"
-      rel="stylesheet" />
+
+</table>

@@ -1,0 +1,134 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Assignment.Models;
+
+namespace Assignment.Controllers
+{
+    public class HotelsController : Controller
+    {
+        private HotelModel db = new HotelModel();
+
+        // GET: Hotels
+        
+        public ActionResult Index()
+        {
+            return View(db.Hotels.ToList());
+        }
+
+        // GET: Hotels/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Hotel hotel = db.Hotels.Find(id);
+            if (hotel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(hotel);
+        }
+
+        // GET: Hotels/Create
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Hotels/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create([Bind(Include = "id,Name,Street,Suburb,State,ZipCode,Description")] Hotel hotel)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Hotels.Add(hotel);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(hotel);
+        }
+
+        // GET: Hotels/Edit/5
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Hotel hotel = db.Hotels.Find(id);
+            if (hotel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(hotel);
+        }
+
+        // POST: Hotels/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit([Bind(Include = "id,Name,Street,Suburb,State,ZipCode,Description")] Hotel hotel)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(hotel).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(hotel);
+        }
+
+        // GET: Hotels/Delete/5
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Hotel hotel = db.Hotels.Find(id);
+            if (hotel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(hotel);
+        }
+
+        // POST: Hotels/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Hotel hotel = db.Hotels.Find(id);
+            db.Hotels.Remove(hotel);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

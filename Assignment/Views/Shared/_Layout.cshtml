@@ -25,11 +25,17 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Hotels", "Create", "hotel")</li>
+                    <li>@Html.ActionLink("Hotels", "Index", "hotels")</li>
                     <li>@Html.ActionLink("Customers", "Index", "customers")</li>
                     <li>@Html.ActionLink("Bookings", "Index", "bookings")</li>
                     <li>@Html.ActionLink("Rooms", "Index", "rooms")</li>
-                    <li>@Html.ActionLink("Staffs", "Index", "staffs")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Staff", "Index","Staffs")</li>
+                        }
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

@@ -6,23 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Assignment.Context;
 using Assignment.Models;
 
 namespace Assignment.Controllers
 {
     public class RoomsController : Controller
     {
-        private HotelStuff db = new HotelStuff();
+        private HotelModel db = new HotelModel();
 
         // GET: Rooms
         public ActionResult Index()
         {
-            List<Room> Rooms = db.rooms
-                .Include(a => a.hotel).ToList();
-            return View(Rooms);
+            var rooms = db.Rooms.Include(r => r.Hotel);
+            return View(rooms.ToList());
         }
-
 
         // GET: Rooms/Details/5
         public ActionResult Details(int? id)
@@ -31,33 +28,18 @@ namespace Assignment.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            Room room = db.rooms
-                .Include(a => a.hotel)
-                .Where(a => a.id == id)
-                .SingleOrDefault();
+            Room room = db.Rooms.Find(id);
             if (room == null)
             {
                 return HttpNotFound();
             }
-
-            //var view = new Hotel_Room_View
-            //{
-            //    ID = room.id,
-            //    Floor = room.Floor,
-            //    Description = room.Description,
-            //    PricePerNight = room.PricePerNight,
-            //    RoomCapacity = room.RoomCapacity,
-            //    hotel = room.hotel
-            //};
-            //return View(view);
-
             return View(room);
         }
 
         // GET: Rooms/Create
         public ActionResult Create()
         {
+            ViewBag.hotel_id = new SelectList(db.Hotels, "id", "Name");
             return View();
         }
 
@@ -66,25 +48,16 @@ namespace Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,Floor,Description,PricePerNight,RoomCapacity,hotel")] Room room)
+        public ActionResult Create([Bind(Include = "id,Floor,Description,PricePerNight,RoomCapacity,hotel_id")] Room room)
         {
-            int id = room.hotel.id;
-
-            Hotel h  = db.hotels.Find(id);
-
-            room.hotel = h;
-
-            this.ModelState["hotel.Name"].Errors.Clear();
-            this.ModelState["hotel.Street"].Errors.Clear();
-            this.ModelState["hotel.Suburb"].Errors.Clear();
-
             if (ModelState.IsValid)
             {
-                db.rooms.Add(room);
+                db.Rooms.Add(room);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.hotel_id = new SelectList(db.Hotels, "id", "Name", room.hotel_id);
             return View(room);
         }
 
@@ -95,11 +68,12 @@ namespace Assignment.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.rooms.Find(id);
+            Room room = db.Rooms.Find(id);
             if (room == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.hotel_id = new SelectList(db.Hotels, "id", "Name", room.hotel_id);
             return View(room);
         }
 
@@ -108,7 +82,7 @@ namespace Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,Floor,Description,PricePerNight,RoomCapacity")] Room room)
+        public ActionResult Edit([Bind(Include = "id,Floor,Description,PricePerNight,RoomCapacity,hotel_id")] Room room)
         {
             if (ModelState.IsValid)
             {
@@ -116,6 +90,7 @@ namespace Assignment.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.hotel_id = new SelectList(db.Hotels, "id", "Name", room.hotel_id);
             return View(room);
         }
 
@@ -126,7 +101,7 @@ namespace Assignment.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Room room = db.rooms.Find(id);
+            Room room = db.Rooms.Find(id);
             if (room == null)
             {
                 return HttpNotFound();
@@ -139,8 +114,8 @@ namespace Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Room room = db.rooms.Find(id);
-            db.rooms.Remove(room);
+            Room room = db.Rooms.Find(id);
+            db.Rooms.Remove(room);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

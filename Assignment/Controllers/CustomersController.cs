@@ -6,29 +6,34 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Assignment.Context;
 using Assignment.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Assignment.Controllers
 {
     public class CustomersController : Controller
     {
-        private HotelStuff db = new HotelStuff();
+        private HotelModel db = new HotelModel();
 
         // GET: Customers
+        [Authorize]
         public ActionResult Index()
         {
-            return View(db.customers.ToList());
+            var userId = User.Identity.GetUserId();
+
+            var customers = db.Customers.Where(c => c.id == userId).ToList();
+            return View(customers);
         }
 
         // GET: Customers/Details/5
-        public ActionResult Details(int? id)
+        [Authorize]
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.customers.Find(id);
+            Customer customer = db.Customers.Find(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -37,6 +42,7 @@ namespace Assignment.Controllers
         }
 
         // GET: Customers/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -47,11 +53,16 @@ namespace Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "id,FName,LName,DateOfRegistration")] Customer customer)
         {
+            customer.id = User.Identity.GetUserId();
+
+            ModelState.Clear();
+            TryValidateModel(customer);
             if (ModelState.IsValid)
             {
-                db.customers.Add(customer);
+                db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -60,13 +71,14 @@ namespace Assignment.Controllers
         }
 
         // GET: Customers/Edit/5
-        public ActionResult Edit(int? id)
+        [Authorize]
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.customers.Find(id);
+            Customer customer = db.Customers.Find(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -79,6 +91,7 @@ namespace Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "id,FName,LName,DateOfRegistration")] Customer customer)
         {
             if (ModelState.IsValid)
@@ -91,13 +104,14 @@ namespace Assignment.Controllers
         }
 
         // GET: Customers/Delete/5
-        public ActionResult Delete(int? id)
+        [Authorize]
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.customers.Find(id);
+            Customer customer = db.Customers.Find(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -108,10 +122,11 @@ namespace Assignment.Controllers
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [Authorize]
+        public ActionResult DeleteConfirmed(string id)
         {
-            Customer customer = db.customers.Find(id);
-            db.customers.Remove(customer);
+            Customer customer = db.Customers.Find(id);
+            db.Customers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

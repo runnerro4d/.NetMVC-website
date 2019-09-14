@@ -1,32 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
 namespace Assignment.Models
 {
-    public class Room
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Room
     {
-        [Display(Name = "Room Number")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Room()
+        {
+            Bookings = new HashSet<Booking>();
+        }
+
         public int id { get; set; }
 
-        [Required]
-        [Display(Name = "Floor")]
         public int Floor { get; set; }
 
-        [Display(Name = "Description")]
-        public String Description { get; set; }
+        public string Description { get; set; }
 
-        [Display(Name = "Price")]
         public double PricePerNight { get; set; }
 
-        [Required]
-        [Display(Name = "Capacity")]
         public int RoomCapacity { get; set; }
 
-        [Required]
-        [Display(Name = "Hotel")]
-        public Hotel hotel { get; set; }
+        public int hotel_id { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
+
+        public virtual Hotel Hotel { get; set; }
     }
 }
