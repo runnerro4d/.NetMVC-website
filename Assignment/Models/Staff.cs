@@ -18,5 +18,8 @@ namespace Assignment.Models
         public DateTime DateOfJoining { get; set; }
 
         public DateTime DateOfTermination { get; set; }
+
+        [StringLength(10)]
+        public string hotel_id { get; set; }
     }
 }

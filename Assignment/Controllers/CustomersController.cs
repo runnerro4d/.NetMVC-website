@@ -22,6 +22,11 @@ namespace Assignment.Controllers
             var userId = User.Identity.GetUserId();
 
             var customers = db.Customers.Where(c => c.id == userId).ToList();
+
+            if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+            {
+                customers = db.Customers.ToList();
+            }
             return View(customers);
         }
 

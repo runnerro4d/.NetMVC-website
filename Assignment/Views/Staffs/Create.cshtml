@@ -66,3 +66,20 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#DateOfJoining').datepicker({
+            format: "dd/mm/yyyy"
+        }).on('dp.change', function (e) {
+            $(this).data('DatePicker').hide();
+        });
+
+        $('#DateOfTermination').datepicker({
+            format: "dd/mm/yyyy"
+        }).on('dp.change', function (e) {
+            $(this).data('DatePicker').hide();
+        });
+    })
+</script>

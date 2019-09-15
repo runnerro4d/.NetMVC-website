@@ -8,7 +8,7 @@ namespace Assignment.Models
     public partial class HotelModel : DbContext
     {
         public HotelModel()
-            : base("name=HotelModel")
+            : base("name=HotelModel1")
         {
         }
 
@@ -34,6 +34,10 @@ namespace Assignment.Models
                 .HasMany(e => e.Bookings)
                 .WithRequired(e => e.Room)
                 .HasForeignKey(e => e.room_id);
+
+            modelBuilder.Entity<Staff>()
+                .Property(e => e.hotel_id)
+                .IsFixedLength();
         }
     }
 }

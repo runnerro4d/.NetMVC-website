@@ -16,11 +16,17 @@ namespace Assignment.Controllers
         private HotelModel db = new HotelModel();
 
         // GET: Bookings
+        
         [Authorize]
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
             var bookings = db.Bookings.Include(b => b.Customer).Include(b => b.Room).Where(b => b.cust_id == userId);
+            if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+            {
+                bookings = db.Bookings.Include(b => b.Customer).Include(b => b.Room);
+            }
+            
             return View(bookings.ToList());
         }
 
@@ -44,7 +50,8 @@ namespace Assignment.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            ViewBag.cust_id = new SelectList(db.Customers, "id", "FName");
+            var userId = User.Identity.GetUserId();
+            ViewBag.cust_id = new SelectList(db.Customers.Where(c => c.id ==userId), "id", "FName");
             ViewBag.room_id = new SelectList(db.Rooms, "id", "Description");
             return View();
         }
