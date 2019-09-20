@@ -127,7 +127,7 @@ namespace Assignment.Controllers
                 db.SaveChanges();
 
                 MailSender m = new MailSender();
-                m.Send(email, "Welcome", userDetails);
+                m.Send(email, "User Detail Update", userDetails);
 
                 return RedirectToAction("Index");
             }
@@ -162,10 +162,12 @@ namespace Assignment.Controllers
             db.Customers.Remove(customer);
             db.SaveChanges();
 
-            string userDetails = "<h1>Account Deleted</h1> <br> <p>Your Account has been deleted:</p>;
+            string userDetails = "<h1>Account Deleted</h1> <br> <p>Your Account has been deleted:</p>";
 
             string email = User.Identity.GetUserName();
 
+            MailSender m = new MailSender();
+            m.Send(email, "Until Next Time", userDetails);
             return RedirectToAction("Index");
         }
 
