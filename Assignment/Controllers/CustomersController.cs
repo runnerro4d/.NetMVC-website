@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Assignment.Models;
+using Assignment.Utils;
 using Microsoft.AspNet.Identity;
 
 namespace Assignment.Controllers
@@ -63,12 +64,25 @@ namespace Assignment.Controllers
         {
             customer.id = User.Identity.GetUserId();
 
+            string userDetails = "<h1>Welcome to JoeStar Hotels.</h1> <br> <h4>Your Account details are as follows:</h4>" +
+                "<p> Username:" + User.Identity.GetUserName() + "</p><br>" +
+                "<p> First Name:" + customer.FName + "</p><br>" +
+                "<p> Last Name" + customer.LName + "</p><br>" +
+                "<p> DateOfRegistration:" + customer.DateOfRegistration + "</p><br>";
+                
+            string email = User.Identity.GetUserName();
+
+
             ModelState.Clear();
             TryValidateModel(customer);
             if (ModelState.IsValid)
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();
+
+                MailSender m = new MailSender();
+                m.Send(email, "Welcome", userDetails);
+
                 return RedirectToAction("Index");
             }
 
@@ -99,10 +113,22 @@ namespace Assignment.Controllers
         [Authorize]
         public ActionResult Edit([Bind(Include = "id,FName,LName,DateOfRegistration")] Customer customer)
         {
+            string userDetails = "<h1>Account Details Updated</h1> <br> <h4>Your Account details are as follows:</h4>" +
+                "<p> Username:" + User.Identity.GetUserName() + "</p><br>" +
+                "<p> First Name:" + customer.FName + "</p><br>" +
+                "<p> Last Name" + customer.LName + "</p><br>" +
+                "<p> DateOfRegistration:" + customer.DateOfRegistration + "</p><br>";
+
+            string email = User.Identity.GetUserName();
+
             if (ModelState.IsValid)
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
+
+                MailSender m = new MailSender();
+                m.Send(email, "Welcome", userDetails);
+
                 return RedirectToAction("Index");
             }
             return View(customer);
@@ -130,9 +156,16 @@ namespace Assignment.Controllers
         [Authorize]
         public ActionResult DeleteConfirmed(string id)
         {
+
+
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
             db.SaveChanges();
+
+            string userDetails = "<h1>Account Deleted</h1> <br> <p>Your Account has been deleted:</p>;
+
+            string email = User.Identity.GetUserName();
+
             return RedirectToAction("Index");
         }
 

@@ -7,12 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Assignment.Models;
+using Assignment.Utils;
 using Microsoft.AspNet.Identity;
 
 namespace Assignment.Controllers
 {
     public class BookingsController : Controller
     {
+
         private HotelModel db = new HotelModel();
 
         // GET: Bookings
@@ -64,10 +66,29 @@ namespace Assignment.Controllers
         [Authorize]
         public ActionResult Create([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost,cust_id,room_id")] Booking booking)
         {
+            
+           // string r = db.Rooms.Where(a => a.id == booking.room_id).ToString(); 
+
+            
+
+            string bookingDetails ="<h1>You Have a New Booking!!</h1> <br> <h4>Booking Details:</h4>" +
+                "<p> Booking id:" + booking.id + "</p><br>" +
+                "<p> Check-in Date:" + booking.StartDate + "</p><br>" +
+                "<p>Check-out Date" + booking.EndDate + "</p><br>" +
+                "<p>Room Number:" + booking.room_id + "</p><br>" +
+                "<p>Number of People:" + booking.NumberOfPeople + "</p><br>" +
+                "<p>Total Cost:" + booking.TotalCost + "</p><br>";
+
+            string email = User.Identity.GetUserName();
             if (ModelState.IsValid)
             {
                 db.Bookings.Add(booking);
                 db.SaveChanges();
+
+                MailSender m = new MailSender();
+
+                m.Send(email, "New Booking",bookingDetails);
+
                 return RedirectToAction("Index");
             }
 
@@ -101,10 +122,24 @@ namespace Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost,cust_id,room_id")] Booking booking)
         {
+            string bookingDetails = "<h1>Your booking has been updated!!</h1> <br> <h4>Booking Details:</h4>" +
+                "<p> Booking id:" + booking.id + "</p><br>" +
+                "<p> Check-in Date:" + booking.StartDate + "</p><br>" +
+                "<p>Check-out Date" + booking.EndDate + "</p><br>" +
+                "<p>Room Number:" + booking.room_id + "</p><br>" +
+                "<p>Number of People:" + booking.NumberOfPeople + "</p><br>" +
+                "<p>Total Cost:" + booking.TotalCost + "</p><br>";
+            string email = User.Identity.GetUserName();
+
             if (ModelState.IsValid)
             {
                 db.Entry(booking).State = EntityState.Modified;
                 db.SaveChanges();
+
+                MailSender m = new MailSender();
+
+                m.Send(email, "Updated Booking", bookingDetails);
+
                 return RedirectToAction("Index");
             }
             ViewBag.cust_id = new SelectList(db.Customers, "id", "FName", booking.cust_id);
@@ -132,9 +167,23 @@ namespace Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
             Booking booking = db.Bookings.Find(id);
             db.Bookings.Remove(booking);
             db.SaveChanges();
+            string bookingDetails = "<h1>We're sorry to see you go.</h1> <br> <p>The following Booking has been cancelled:</p>" +
+                "<p> Booking id:" + booking.id + "</p><br>" +
+                "<p> Check-in Date:" + booking.StartDate + "</p><br>" +
+                "<p>Check-out Date" + booking.EndDate + "</p><br>" +
+                "<p>Room Number:" + booking.room_id + "</p><br>" +
+                "<p>Number of People:" + booking.NumberOfPeople + "</p><br>" +
+                "<p>Total Cost:" + booking.TotalCost + "</p><br>";
+            string email = User.Identity.GetUserName();
+
+            MailSender m = new MailSender();
+
+            m.Send(email, "Cancellation of Booking", bookingDetails);
+
             return RedirectToAction("Index");
         }
 
@@ -146,5 +195,7 @@ namespace Assignment.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

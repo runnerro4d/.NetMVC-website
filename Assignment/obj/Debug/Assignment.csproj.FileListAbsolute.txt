@@ -111,3 +111,6 @@ C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migration
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migrations.dbagain1.resources
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migrations.DBchanges.resources
 C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.csprojAssemblyReference.cache
+C:\Users\aadit\source\repos\Assignment\Assignment\bin\SendGrid.dll
+C:\Users\aadit\source\repos\Assignment\Assignment\bin\SendGrid.pdb
+C:\Users\aadit\source\repos\Assignment\Assignment\bin\SendGrid.xml
