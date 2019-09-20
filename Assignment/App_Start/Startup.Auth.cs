@@ -58,11 +58,11 @@ namespace Assignment
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "859394518440-ia1725jfi1ei5aolfmrcpb1rv2eg3g3u.apps.googleusercontent.com",
+                ClientSecret = "dX7U7JcPS1YwgOeNadBgDx2i"
+            });
         }
     }
 }
