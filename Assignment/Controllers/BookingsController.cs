@@ -15,7 +15,7 @@ namespace Assignment.Controllers
     public class BookingsController : Controller
     {
 
-        private HotelModel db = new HotelModel();
+        private newHotelModel db = new newHotelModel();
 
         // GET: Bookings
         
@@ -66,13 +66,34 @@ namespace Assignment.Controllers
         [Authorize]
         public ActionResult Create([Bind(Include = "id,StartDate,EndDate,NumberOfPeople,TotalCost,cust_id,room_id")] Booking booking)
         {
-            
-           // string r = db.Rooms.Where(a => a.id == booking.room_id).ToString(); 
+            Room r = db.Rooms.Find(booking.room_id);
+            booking.TotalCost = ((booking.EndDate - booking.StartDate).TotalDays) * r.PricePerNight;
 
-            
+            ViewBag.startDateMessage = "";
+            ViewBag.endDateMessage = "";
+            ViewBag.peopleMessage = "";
+            // string r = db.Rooms.Where(a => a.id == booking.room_id).ToString(); 
+            if (DateTime.Compare(booking.StartDate, booking.EndDate) > 0 )
+            {
+                ViewBag.endDateMessage = "End Date must be greater than Start Date";
+            }
+
+            if (DateTime.Compare(DateTime.Now, booking.EndDate) >= 0)
+            {
+                ViewBag.endDateMessage = "End Date is not valid as date is in the past";
+            }
+
+            if (DateTime.Compare(DateTime.Now, booking.StartDate) >= 0)
+            {
+                ViewBag.startDateMessage = "Start Date is not valid as date is in the past";
+            }
+
+            if (r.RoomCapacity < booking.NumberOfPeople)
+            {
+                ViewBag.peopleMessage = "This room only has capacity for " + r.RoomCapacity + " people";
+            }
 
             string bookingDetails ="<h1>You Have a New Booking!!</h1> <br> <h4>Booking Details:</h4>" +
-                "<p> Booking id:" + booking.id + "</p><br>" +
                 "<p> Check-in Date:" + booking.StartDate + "</p><br>" +
                 "<p>Check-out Date" + booking.EndDate + "</p><br>" +
                 "<p>Room Number:" + booking.room_id + "</p><br>" +
@@ -80,7 +101,10 @@ namespace Assignment.Controllers
                 "<p>Total Cost:" + booking.TotalCost + "</p><br>";
 
             string email = User.Identity.GetUserName();
-            if (ModelState.IsValid)
+
+            ModelState.Clear();
+            TryValidateModel(booking);
+            if (ModelState.IsValid && ViewBag.startDateMessage == "" && ViewBag.endDateMessage == "" && ViewBag.peopleMessage == "")
             {
                 db.Bookings.Add(booking);
                 db.SaveChanges();

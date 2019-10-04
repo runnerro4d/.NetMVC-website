@@ -14,5 +14,6 @@ namespace Assignment.Context
         public DbSet<Customer> customers { get; set; }
         public DbSet<Booking> bookings { get; set; }
         public DbSet<Room> rooms { get; set; }
+        public DbSet<Rating> ratings { get; set; }
     }
 }

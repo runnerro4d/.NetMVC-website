@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Assignment.Models;
@@ -12,7 +14,7 @@ namespace Assignment.Controllers
 {
     public class HotelsController : Controller
     {
-        private HotelModel db = new HotelModel();
+        private newHotelModel db = new newHotelModel();
 
         // GET: Hotels
         
@@ -20,6 +22,34 @@ namespace Assignment.Controllers
         {
             return View(db.Hotels.ToList());
         }
+
+        //public ActionResult bookingShare()
+        //{
+        //    var query = "Select * from [dbo].[Bookings] for json auto";
+
+        //    var conn = new SqlConnection("C:/Users/aadit/source/repos/Assignment/Assignment/App_Data/aspnet-Assignment-20190816034540.mdf");
+
+        //    var cmd = new SqlCommand(query, conn);
+
+        //    conn.Open();
+
+        //    var jsonResult = new StringBuilder();
+
+        //    var reader = cmd.ExecuteReader();
+        //    if (!reader.HasRows)
+        //    {
+        //        jsonResult.Append("[]");
+        //    }
+        //    else
+        //    {
+        //        while (reader.Read())
+        //        {
+        //            jsonResult.Append(reader.GetValue(0).ToString());
+        //        }
+        //    }
+
+        //    return View(jsonResult);
+        //}
 
         // GET: Hotels/Details/5
         public ActionResult Details(int? id)

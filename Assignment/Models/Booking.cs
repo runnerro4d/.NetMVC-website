@@ -8,6 +8,12 @@ namespace Assignment.Models
 
     public partial class Booking
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Booking()
+        {
+            Ratings = new HashSet<Rating>();
+        }
+
         public int id { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -27,5 +33,8 @@ namespace Assignment.Models
         public virtual Customer Customer { get; set; }
 
         public virtual Room Room { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

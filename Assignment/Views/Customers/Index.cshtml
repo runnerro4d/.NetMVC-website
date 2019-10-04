@@ -5,13 +5,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+    <div class="myReg">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+<h2 class="myText">Customers</h2>
+
+<style>
+    .myReg {
+        background-image: url('../../Images/CustBack.jpg'); 
+        filter:blur(5px);
+    }
+    .myText {
+        text-align:center;
+        color:white;
+        transform:translate(0%,-270%);
+        z-index:2;
+    }
+</style>
+
 
 <p>
-    @if (User.Identity.IsAuthenticated == false || User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin"))
     {
         @Html.ActionLink("Create New", "Create")
     }
+
 </p>
 <table class="table">
     <thead>

@@ -82,4 +82,6 @@ map.on('load', function () {
     map.on('mouseleave', 'places', function () {
         map.getCanvas().style.cursor = '';
     });
+
+    
 });

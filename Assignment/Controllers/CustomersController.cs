@@ -14,7 +14,7 @@ namespace Assignment.Controllers
 {
     public class CustomersController : Controller
     {
-        private HotelModel db = new HotelModel();
+        private newHotelModel db = new newHotelModel();
 
         // GET: Customers
         [Authorize]
@@ -63,6 +63,7 @@ namespace Assignment.Controllers
         public ActionResult Create([Bind(Include = "id,FName,LName,DateOfRegistration")] Customer customer)
         {
             customer.id = User.Identity.GetUserId();
+            customer.DateOfRegistration = DateTime.Now;
 
             string userDetails = "<h1>Welcome to JoeStar Hotels.</h1> <br> <h4>Your Account details are as follows:</h4>" +
                 "<p> Username:" + User.Identity.GetUserName() + "</p><br>" +
@@ -71,7 +72,6 @@ namespace Assignment.Controllers
                 "<p> DateOfRegistration:" + customer.DateOfRegistration + "</p><br>";
                 
             string email = User.Identity.GetUserName();
-
 
             ModelState.Clear();
             TryValidateModel(customer);

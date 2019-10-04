@@ -12,7 +12,7 @@ namespace Assignment.Controllers
 {
     public class RoomsController : Controller
     {
-        private HotelModel db = new HotelModel();
+        private newHotelModel db = new newHotelModel();
 
         // GET: Rooms
         public ActionResult Index()
