@@ -66,6 +66,8 @@
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                
+                @Html.ActionLink("Book Room", "../rooms/newIndex", new { id = item.id }) |
 
                 @if (User.Identity.IsAuthenticated)
                 {

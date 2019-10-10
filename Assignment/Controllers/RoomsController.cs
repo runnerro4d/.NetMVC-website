@@ -21,6 +21,18 @@ namespace Assignment.Controllers
             return View(rooms.ToList());
         }
 
+        public ActionResult newIndex(int? id)
+        {
+            Hotel h = db.Hotels.Find(id);
+            ViewBag.Name = h.Name;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var rooms = db.Rooms.Include(r => r.Hotel).Where(r => r.hotel_id == id);
+            return View(rooms.ToList());
+        }
+
         // GET: Rooms/Details/5
         public ActionResult Details(int? id)
         {

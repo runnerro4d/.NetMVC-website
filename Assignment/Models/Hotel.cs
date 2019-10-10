@@ -2,6 +2,7 @@ namespace Assignment.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -17,9 +18,11 @@ namespace Assignment.Models
         public int id { get; set; }
 
         [Required]
+        [DisplayName("Hotel Name")]
         public string Name { get; set; }
 
         [Required]
+
         public string Street { get; set; }
 
         [Required]

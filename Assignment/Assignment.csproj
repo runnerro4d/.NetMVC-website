@@ -699,6 +699,8 @@
     <Content Include="Views\Ratings\Details.cshtml" />
     <Content Include="Views\Ratings\Edit.cshtml" />
     <Content Include="Views\Ratings\Index.cshtml" />
+    <Content Include="Views\Customers\MailCustomers.cshtml" />
+    <Content Include="Views\Rooms\newIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908270535370_InitialCreate.resx">

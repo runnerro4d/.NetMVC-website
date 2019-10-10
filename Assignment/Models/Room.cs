@@ -2,6 +2,7 @@ namespace Assignment.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -20,8 +21,10 @@ namespace Assignment.Models
 
         public string Description { get; set; }
 
+        [DisplayName("Price Per Night")]
         public double PricePerNight { get; set; }
 
+        [DisplayName("Max Occupancy")]
         public int RoomCapacity { get; set; }
 
         public int hotel_id { get; set; }

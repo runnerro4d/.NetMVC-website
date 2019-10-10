@@ -2,6 +2,7 @@ namespace Assignment.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -16,12 +17,16 @@ namespace Assignment.Models
 
         public int id { get; set; }
 
+        [DisplayName("Check-in Date")]
         public DateTime StartDate { get; set; }
 
+        [DisplayName("Check-out Date")]
         public DateTime EndDate { get; set; }
 
+        [DisplayName("Number of People")]
         public int NumberOfPeople { get; set; }
 
+        [DisplayName("Total Cost")]
         public double TotalCost { get; set; }
 
         [Required]

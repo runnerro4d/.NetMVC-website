@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+
 namespace Assignment.Utils
 {
     public class MailSender
@@ -20,6 +21,28 @@ namespace Assignment.Utils
             var htmlContent = "<p>" + contents + "</p>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = client.SendEmailAsync(msg);
+
+            
+        }
+
+
+        public void SendMultiple(List<String> toEmail, String subject, String contents)
+        {
+            var client = new SendGridClient(API_KEY);
+            var from = new EmailAddress("noreply@JoeStarHotels.com", "JoeStar Hotels");
+            //var to = new EmailAddress(toEmail, "");
+            List<EmailAddress> tos = new List<EmailAddress>();
+            foreach (String s in toEmail)
+            {
+                tos.Add(new EmailAddress(s, ""));
+            }
+
+            var plainTextContent = contents;
+            var htmlContent = "<p>" + contents + "</p>";
+            var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from, tos, subject, plainTextContent, htmlContent);
+            var response = client.SendEmailAsync(msg);
+
+
         }
     }
 }

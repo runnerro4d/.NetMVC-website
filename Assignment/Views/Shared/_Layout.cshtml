@@ -33,8 +33,28 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Hotels", "Index", "hotels")</li>
-                    <li>@Html.ActionLink("Customers", "Index", "customers")</li>
-                    <li>@Html.ActionLink("Bookings", "Index", "bookings")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Customers", "Index", "Customers")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("My Details","Index" ,"Customers")</li>
+                        }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Bookings", "Index", "bookings")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("My Bookings", "Index", "bookings")</li>
+                        }
+                    }
                     <li>@Html.ActionLink("Rooms", "Index", "rooms")</li>
                     <li>@Html.ActionLink("Location", "Index", "Locations")</li>
                     @if (User.Identity.IsAuthenticated)
@@ -43,6 +63,11 @@
                         {
                             <li>@Html.ActionLink("Staff", "Index", "Staffs")</li>
                         }
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Reviews", "Index", "Ratings")</li>
+
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

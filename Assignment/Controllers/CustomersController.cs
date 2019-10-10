@@ -16,6 +16,7 @@ namespace Assignment.Controllers
     {
         private newHotelModel db = new newHotelModel();
 
+        
         // GET: Customers
         [Authorize]
         public ActionResult Index()
