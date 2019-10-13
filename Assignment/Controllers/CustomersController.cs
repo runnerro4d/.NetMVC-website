@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Assignment.Models;
 using Assignment.Utils;
 using Microsoft.AspNet.Identity;
+using SendGrid.Helpers.Mail;
 
 namespace Assignment.Controllers
 {
@@ -16,13 +17,42 @@ namespace Assignment.Controllers
     {
         private newHotelModel db = new newHotelModel();
 
+        private ApplicationDbContext db1 = new ApplicationDbContext();
+
         
+
+        [Authorize(Roles ="Admin")]
+        public ActionResult SendBulkMail()
+        {
+            var userId = User.Identity.GetUserId();
+
+            List<string> Emails = db1.Users.Select(b => b.Email).ToList();
+
+            MailSender m = new MailSender();
+
+            List<EmailAddress> emailAddresses = new List<EmailAddress>();
+
+            string Details = "<h1>Hi</h1> <br> <p>Welcome to JoeStar Hotels!</p> <br> <p>Book your stay today and enjoy complimentary breakfast, spa visits and other experiences provided by our team!</p> <br>";
+
+            foreach (String s in Emails)
+            {
+                emailAddresses.Add(new EmailAddress(s, ""));
+
+            }
+
+            m.SendMultiple(emailAddresses, "Welcome", Details);
+
+            return RedirectToAction("Index");
+        }
+
+
+
         // GET: Customers
         [Authorize]
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-
+            
             var customers = db.Customers.Where(c => c.id == userId).ToList();
 
             if (User.IsInRole("Admin") || User.IsInRole("Staff"))

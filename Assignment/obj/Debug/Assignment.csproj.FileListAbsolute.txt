@@ -113,3 +113,4 @@ C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.Migration
 C:\Users\aadit\source\repos\Assignment\Assignment\bin\SendGrid.dll
 C:\Users\aadit\source\repos\Assignment\Assignment\bin\SendGrid.pdb
 C:\Users\aadit\source\repos\Assignment\Assignment\bin\SendGrid.xml
+C:\Users\aadit\source\repos\Assignment\Assignment\obj\Debug\Assignment.csprojAssemblyReference.cache

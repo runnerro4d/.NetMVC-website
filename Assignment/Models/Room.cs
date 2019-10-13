@@ -22,9 +22,11 @@ namespace Assignment.Models
         public string Description { get; set; }
 
         [DisplayName("Price Per Night")]
+        [Range(1,1000)]
         public double PricePerNight { get; set; }
 
         [DisplayName("Max Occupancy")]
+        [Range(1, 10)]
         public int RoomCapacity { get; set; }
 
         public int hotel_id { get; set; }

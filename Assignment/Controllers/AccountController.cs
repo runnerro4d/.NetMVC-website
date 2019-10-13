@@ -19,6 +19,7 @@ namespace Assignment.Controllers
         private ApplicationUserManager _userManager;
 
         ApplicationDbContext _db = new ApplicationDbContext();
+        private newHotelModel db = new newHotelModel();
         public AccountController()
         {
         }
@@ -80,7 +81,7 @@ namespace Assignment.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                        return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -125,7 +126,7 @@ namespace Assignment.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
+                        return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.Failure:
@@ -335,7 +336,7 @@ namespace Assignment.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                        return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -447,11 +448,13 @@ namespace Assignment.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
+
+
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

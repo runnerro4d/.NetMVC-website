@@ -54,7 +54,7 @@ namespace Assignment.Controllers
         {
             var userId = User.Identity.GetUserId();
             ViewBag.cust_id = new SelectList(db.Customers.Where(c => c.id ==userId), "id", "FName");
-            ViewBag.room_id = new SelectList(db.Rooms, "id", "Description");
+            ViewBag.room_id = new SelectList(db.Rooms, "id", "id");
             return View();
         }
 

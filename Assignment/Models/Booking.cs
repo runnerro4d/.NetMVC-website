@@ -24,6 +24,7 @@ namespace Assignment.Models
         public DateTime EndDate { get; set; }
 
         [DisplayName("Number of People")]
+        [Range(1,50)]
         public int NumberOfPeople { get; set; }
 
         [DisplayName("Total Cost")]
