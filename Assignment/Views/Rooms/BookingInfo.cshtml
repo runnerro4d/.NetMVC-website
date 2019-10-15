@@ -1,0 +1,130 @@
+﻿@model Assignment.Models.Room
+
+@{
+    ViewBag.Title = "Booking Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Booking Details</h2>
+
+<div id="chartContainer"></div>
+<div id="chartContainer2"></div>
+<script type="text/javascript">
+
+		window.onload = function () {
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "light2",
+				animationEnabled: true,
+				title: {
+					text: "Simple Column Chart in ASP.NET MVC"
+                },
+                axisY: {
+                    title: "Number of Reviews",
+                    titleFontColor: "#4F81BC",
+                    lineColor: "#4F81BC",
+                    labelFontColor: "#4F81BC",
+                    tickColor: "#4F81BC"
+                },
+                axisX: {
+                    title: "Rooms",
+                    interval: 1
+                },
+				subtitles: [
+					{ text: "Number of ratings for each room" }
+				],
+				data: [
+				{
+					type: "column", 
+					
+                    dataPoints: @Html.Raw(ViewBag.RatingDatapoints)
+				}
+				]
+            });
+
+            var chart1 = new CanvasJS.Chart("chartContainer2", {
+				theme: "light2",
+				animationEnabled: true,
+				title: {
+					text: "Simple Column Chart in ASP.NET MVC"
+                },
+                axisY: {
+                    title: "Number of Bookings",
+                    titleFontColor: "#4F81BC",
+                    lineColor: "#4F81BC",
+                    labelFontColor: "#4F81BC",
+                    tickColor: "#4F81BC"
+                },
+                axisX: {
+                    title: "Rooms",
+                    interval: 1
+                },
+				subtitles: [
+					{ text: "Number of bookings for each room" }
+				],
+				data: [
+				{
+					type: "column", //change type to bar, line, area, pie, etc
+					dataPoints: @Html.Raw(ViewBag.BookingDatapoints)
+				}
+				]
+			});
+
+            chart.render();
+
+            chart1.render();
+		};
+</script>
+<br>
+
+
+@*<script type="text/javascript">
+
+		window.onload = function () {
+			var chart1 = new CanvasJS.Chart("chartContainer2", {
+				theme: "light2",
+				animationEnabled: true,
+				title: {
+					text: "Simple Column Chart in ASP.NET MVC"
+				},
+				subtitles: [
+					{ text: "Number of bookings for each room" }
+				],
+				data: [
+				{
+					type: "column", //change type to bar, line, area, pie, etc
+					//dataPoints: [
+					//{ x: 10, y: 71 },
+					//{ x: 20, y: 55 },
+					//{ x: 30, y: 50 },
+					//{ x: 40, y: 65 },
+					//{ x: 50, y: 95 },
+					//{ x: 60, y: 68 },
+					//{ x: 70, y: 28 },
+					//{ x: 80, y: 34 },
+					//{ x: 90, y: 14 }
+					//]
+                                        //Uncomment below line to add data coming from the controller.
+                        dataPoints: @Html.Raw(ViewBag.BookingDatapoints)
+				}
+				]
+			});
+			chart1.render();
+		};
+</script>*@
+
+
+
+@Scripts.Render("~/Scripts/canvasjs.min.js")
+
+<script>
+$('#chartContainer').click(function() {
+    $('#chartContainer').hide();
+    $('#chartContainer2').show();
+            });
+
+$('#chartContainer2').click(function() {
+                $('#chartContainer2').hide();
+        $('#chartContainer').show();
+});
+
+    </script>

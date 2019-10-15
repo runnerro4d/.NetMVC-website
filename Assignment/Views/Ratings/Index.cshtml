@@ -10,10 +10,17 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Booking.cust_id)
+            @Html.DisplayNameFor(model => model.Booking.Customer.FName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Booking.Customer.LName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.booking_id)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.rate)
@@ -28,25 +35,31 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Booking.cust_id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.rate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ratingDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Booking.Customer.FName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Booking.Customer.LName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.booking_id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.rate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.comments)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ratingDate)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+    </td>
+</tr>
 }
 
 </table>

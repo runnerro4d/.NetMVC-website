@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ASPNET_MVC_Samples.Models;
 using Assignment.Models;
+using Newtonsoft.Json;
 
 namespace Assignment.Controllers
 {
@@ -20,6 +22,33 @@ namespace Assignment.Controllers
             var rooms = db.Rooms.Include(r => r.Hotel);
             return View(rooms.ToList());
         }
+
+        public ActionResult BookingInfo()
+        {
+            var rooms = db.Rooms.Include(r => r.Hotel);
+            List<ChartDataPoint> datapts = new List<ChartDataPoint>();
+            List<ChartDataPoint> datapts2 = new List<ChartDataPoint>();
+            foreach (Room r in rooms)
+            {
+                datapts.Add(new ChartDataPoint(r.id, r.Bookings.Count()));
+                foreach (Booking b in r.Bookings)
+                {
+                    if (b.Ratings.Count() != 0)
+                    {
+                        datapts2.Add(new ChartDataPoint(r.id, (b.Ratings.Sum(a => a.rate) / b.Ratings.Count())));
+                    }
+                    else
+                    {
+                        datapts2.Add(new ChartDataPoint(r.id, 0));
+                    }
+                }
+            }
+
+            ViewBag.BookingDatapoints = JsonConvert.SerializeObject(datapts);
+            ViewBag.RatingDatapoints = JsonConvert.SerializeObject(datapts2);
+            return View();
+        }
+
 
         public ActionResult newIndex(int? id)
         {
@@ -36,11 +65,28 @@ namespace Assignment.Controllers
         // GET: Rooms/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.rating = "Not Yet Rated";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var allBookings = db.Bookings.Where(b => b.room_id == id).Include(r => r.Ratings);
+            float ratingSum = 0;
+            float ratingCount = 0;
+            foreach (Booking b in allBookings) {
+                foreach (Rating r in b.Ratings) {
+                    ratingSum += r.rate;
+                    ratingCount++;
+                }
+            }
+            if (ratingCount != 0) {
+                ViewBag.rating = Math.Round(ratingSum / ratingCount, 2);
+            }
+
+            
+
             Room room = db.Rooms.Find(id);
+
             if (room == null)
             {
                 return HttpNotFound();

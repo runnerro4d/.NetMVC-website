@@ -52,7 +52,8 @@ namespace Assignment.Controllers
         // GET: Ratings/Create
         public ActionResult Create()
         {
-            ViewBag.booking_id = new SelectList(db.Bookings, "id", "cust_id");
+            var userID = User.Identity.GetUserId();
+            ViewBag.booking_id = new SelectList(db.Bookings.Where(b => b.cust_id == userID), "id", "id");
             return View();
         }
 

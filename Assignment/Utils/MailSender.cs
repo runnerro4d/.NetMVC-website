@@ -22,13 +22,14 @@ namespace Assignment.Utils
             var plainTextContent = contents;
             var htmlContent = "<p>" + contents + "</p>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var bytes = File.ReadAllBytes(@"C:\Users\aadit\Desktop\Assessment_Task_1.pdf");
+            var bytes = File.ReadAllBytes(@"C:\Users\aadit\Desktop\Monash Sem 3\FIT5032\Assessment_Task_1.pdf");
             var file = Convert.ToBase64String(bytes);
             msg.AddAttachment("ABC.pdf", file);
             var response = client.SendEmailAsync(msg);
 
             
         }
+
 
 
         public void SendMultiple(List<EmailAddress> toEmails, String subject, String contents)
