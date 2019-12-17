@@ -9,7 +9,7 @@ namespace Assignment.Utils
 {
     public class MailSender
     {
-        private const String API_KEY = "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";
+        private const String API_KEY = "";
 
         public void Send(String toEmail, String subject, String contents)
         {
